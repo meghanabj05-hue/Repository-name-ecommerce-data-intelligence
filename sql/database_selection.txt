@@ -1,0 +1,193 @@
+** For relational database it is best to use PostgreSQL**
+
+Why to use postgreSql? compare with other options and explain
+
+Absolutely. Before we install anything, you should understand why PostgreSQL is being chosen. That's the right way to approach this project.
+
+Why PostgreSQL for our project?
+
+Your goal isn't just:
+
+"Make some charts from CSV files."
+
+You're trying to build a project that teaches you pieces of:
+
+Data Analytics
+Data Engineering
+Data Science
+SQL
+Database design
+ETL/ELT
+Data modeling
+Git/GitHub
+Eventually dashboards
+
+So we want a database that teaches you real relational-database concepts without making the project unnecessarily difficult.
+
+For that, PostgreSQL is an excellent middle ground.
+
+1. First understand what a database is solving
+
+Right now your data looks like:
+
+9 CSV files
+│
+├── orders.csv
+├── order_items.csv
+├── products.csv
+├── customers.csv
+├── sellers.csv
+├── payments.csv
+├── reviews.csv
+├── geolocation.csv
+└── category_translation.csv
+
+CSV is basically a file.
+
+It's useful for:
+
+sharing data
+importing/exporting
+small analysis
+Pandas
+
+But it isn't a full database system.
+
+For example, CSV doesn't naturally enforce:
+
+"Every order_id in order_items must exist in orders"
+
+or:
+
+"product_id must uniquely identify a product"
+
+or:
+
+"Don't allow two rows with the same primary key"
+
+A relational database can.
+
+2. What PostgreSQL gives us
+
+We can turn this:
+
+CSV files
+
+into:
+
+PostgreSQL database
+
+
+ecommerce_db
+│
+├── fact_orders
+├── fact_order_items
+├── fact_payments
+├── fact_reviews
+│
+├── dim_products
+├── dim_customers
+└── dim_sellers
+
+Then the database understands relationships between these tables.
+
+For example:
+
+dim_products
+      │
+      │ product_id
+      ▼
+fact_order_items
+      │
+      │ order_id
+      ▼
+fact_orders
+
+That's exactly the data model we just built.
+
+3. Why not just use Pandas?
+
+Pandas is excellent for:
+
+Python
+ ↓
+DataFrame
+ ↓
+Analysis
+
+But Pandas isn't primarily a database.
+
+Imagine you eventually have:
+
+100 million orders
+
+You don't want your entire analytical workflow to depend on:
+
+pd.read_csv(...)
+
+and keeping everything in RAM.
+
+A database can handle:
+
+persistent storage
+concurrent users
+indexes
+constraints
+transactions
+permissions
+SQL queries
+large datasets
+structured schemas
+
+Pandas is still going to be part of our project.
+
+The relationship becomes:
+
+PostgreSQL
+     ↕
+   Python
+     ↕
+   Pandas
+
+
+
+
+   What companies actually care about
+
+The specific database isn't the most important thing.
+
+If you learn:
+
+SELECT
+FROM
+WHERE
+GROUP BY
+JOIN
+HAVING
+CASE
+CTE
+WINDOW FUNCTIONS
+
+those concepts transfer.
+
+For example:
+
+PostgreSQL:
+
+SELECT
+    product_id,
+    SUM(price)
+FROM fact_order_items
+GROUP BY product_id;
+
+The same fundamental idea works in:
+
+PostgreSQL
+MySQL
+SQL Server
+Snowflake
+BigQuery
+Redshift
+DuckDB
+
+The syntax has differences, but the underlying thinking is transferable.
